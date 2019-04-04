@@ -13,12 +13,12 @@ const cache = new InMemoryCache();
 const GITHUB_BASE_URL = 'https://api.github.com/graphql';
 
 const httpLink = new HttpLink({
-  uri: GITHUB_BASE_URL,
-  headers: {
-    authorization: `Bearer ${
+    uri: GITHUB_BASE_URL,
+    headers: {
+        authorization: `Bearer ${
       process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN
     }`,
-  },
+    },
 });
 
 const client = new ApolloClient({
@@ -27,8 +27,10 @@ const client = new ApolloClient({
 })
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('root')
+    <ApolloClient client={client}>
+        <App />
+    </ApolloClient>,
+    document.getElementById('root')
 );
 
 registerServiceWorker();

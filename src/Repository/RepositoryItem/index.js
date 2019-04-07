@@ -8,117 +8,114 @@ import Button from '../../Button';
 import '../style.css';
 
 import {
-  STAR_REPOSITORY,
-  UNSTAR_REPOSITORY,
-  WATCH_REPOSITORY,
+    STAR_REPOSITORY,
+    UNSTAR_REPOSITORY,
+    WATCH_REPOSITORY,
 } from '../mutations';
 
 const VIEWER_SUBSCRIPTIONS = {
-  SUBSCRIBED: 'SUBSCRIBED',
-  UNSUBSCRIBED: 'UNSUBSCRIBED',
+    SUBSCRIBED: 'SUBSCRIBED',
+    UNSUBSCRIBED: 'UNSUBSCRIBED',
 };
 
 const isWatch = viewerSubscription =>
-  viewerSubscription === VIEWER_SUBSCRIPTIONS.SUBSCRIBED;
+    viewerSubscription === VIEWER_SUBSCRIPTIONS.SUBSCRIBED;
 
 const updateWatch = (
-  client,
-  {
-    data: {
-      updateSubscription: {
-        subscribable: { id, viewerSubscription },
-      },
+    client, {
+        data: {
+            updateSubscription: {
+                subscribable: { id, viewerSubscription },
+            },
+        },
     },
-  },
 ) => {
-  const repository = client.readFragment({
-    id: `Repository:${id}`,
-    fragment: REPOSITORY_FRAGMENT,
-  });
+    const repository = client.readFragment({
+        id: `Repository:${id}`,
+        fragment: REPOSITORY_FRAGMENT,
+    });
 
-  let { totalCount } = repository.watchers;
-  totalCount =
-    viewerSubscription === VIEWER_SUBSCRIPTIONS.SUBSCRIBED
-      ? totalCount + 1
-      : totalCount - 1;
+    let { totalCount } = repository.watchers;
+    totalCount =
+        viewerSubscription === VIEWER_SUBSCRIPTIONS.SUBSCRIBED ?
+        totalCount + 1 :
+        totalCount - 1;
 
-  client.writeFragment({
-    id: `Repository:${id}`,
-    fragment: REPOSITORY_FRAGMENT,
-    data: {
-      ...repository,
-      watchers: {
-        ...repository.watchers,
-        totalCount,
-      },
-    },
-  });
+    client.writeFragment({
+        id: `Repository:${id}`,
+        fragment: REPOSITORY_FRAGMENT,
+        data: {
+            ...repository,
+            watchers: {
+                ...repository.watchers,
+                totalCount,
+            },
+        },
+    });
 };
 
 const updateAddStar = (
-  client,
-  {
-    data: {
-      addStar: {
-        starrable: { id, viewerHasStarred },
-      },
-    },
-  },
-) =>
-  client.writeFragment({
-    id: `Repository:${id}`,
-    fragment: REPOSITORY_FRAGMENT,
-    data: getUpdatedStarData(client, id, viewerHasStarred),
-  });
+        client, {
+            data: {
+                addStar: {
+                    starrable: { id, viewerHasStarred },
+                },
+            },
+        },
+    ) =>
+    client.writeFragment({
+        id: `Repository:${id}`,
+        fragment: REPOSITORY_FRAGMENT,
+        data: getUpdatedStarData(client, id, viewerHasStarred),
+    });
 
 const updateRemoveStar = (
-  client,
-  {
-    data: {
-      removeStar: {
-        starrable: { id, viewerHasStarred },
-      },
+    client, {
+        data: {
+            removeStar: {
+                starrable: { id, viewerHasStarred },
+            },
+        },
     },
-  },
 ) => {
-  client.writeFragment({
-    id: `Repository:${id}`,
-    fragment: REPOSITORY_FRAGMENT,
-    data: getUpdatedStarData(client, id, viewerHasStarred),
-  });
+    client.writeFragment({
+        id: `Repository:${id}`,
+        fragment: REPOSITORY_FRAGMENT,
+        data: getUpdatedStarData(client, id, viewerHasStarred),
+    });
 };
 
 const getUpdatedStarData = (client, id, viewerHasStarred) => {
-  const repository = client.readFragment({
-    id: `Repository:${id}`,
-    fragment: REPOSITORY_FRAGMENT,
-  });
+    const repository = client.readFragment({
+        id: `Repository:${id}`,
+        fragment: REPOSITORY_FRAGMENT,
+    });
 
-  let { totalCount } = repository.stargazers;
-  totalCount = viewerHasStarred ? totalCount + 1 : totalCount - 1;
+    let { totalCount } = repository.stargazers;
+    totalCount = viewerHasStarred ? totalCount + 1 : totalCount - 1;
 
-  return {
-    ...repository,
-    stargazers: {
-      ...repository.stargazers,
-      totalCount,
-    },
-  };
+    return {
+        ...repository,
+        stargazers: {
+            ...repository.stargazers,
+            totalCount,
+        },
+    };
 };
 
 const RepositoryItem = ({
-  id,
-  name,
-  url,
-  descriptionHTML,
-  primaryLanguage,
-  owner,
-  stargazers,
-  watchers,
-  viewerSubscription,
-  viewerHasStarred,
+    id,
+    name,
+    url,
+    descriptionHTML,
+    primaryLanguage,
+    owner,
+    stargazers,
+    watchers,
+    viewerSubscription,
+    viewerHasStarred,
 }) => (
-  <div>
+    <div>
     <div className="RepositoryItem-title">
       <h2>
         <Link href={url}>{name}</Link>

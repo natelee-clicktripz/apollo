@@ -12,7 +12,7 @@ import App from './App';
 
 import './style.css';
 
-const GITHUB_BASE_URL = 'https://api.github.com/graphql';
+const GITHUB_BASE_URL = 'https://api.yelp.com/v3/graphql';
 
 const httpLink = new HttpLink({
   uri: GITHUB_BASE_URL,

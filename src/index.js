@@ -12,14 +12,15 @@ import App from './App';
 
 import './style.css';
 
-const GITHUB_BASE_URL = 'https://api.yelp.com/v3/graphql';
+const YELP_BASE_URL = 'https://api.yelp.com/v3/graphql';
 
 const httpLink = new HttpLink({
-  uri: GITHUB_BASE_URL,
+  uri: YELP_BASE_URL,
   headers: {
     authorization: `Bearer ${
-      process.env.REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN
+      process.env.YELP_PERSONAL_ACCESS_TOKEN
     }`,
+    "Content-Type": "application/graphql",
   },
 });
 

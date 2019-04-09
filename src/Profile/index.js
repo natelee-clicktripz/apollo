@@ -26,21 +26,34 @@ const GET_REPOSITORIES_OF_CURRENT_USER = gql `
 `;
 
 const GET_REPOSITORIES_FILES = gql `
-  {
-  viewer {
-    login
-    name
-    repository(name: "apollo") {
-      id
-      descriptionHTML
-      object(expression: "master:src/index.js") {
-        id
-        ... on Blob {
-          text
+{
+    search(term: "pizza", location:"los angeles", limit:10) {
+        business {
+          id
+        name
+        url
+        location {
+          address1
+          address2
+          address3
+          city
+          state
+          postal_code
+          country
+          formatted_address
         }
-      }
+        hours {
+          hours_type
+          is_open_now
+        }
+        reviews {
+          id
+        }
+        alias
+
+        }
+         total
     }
-  }
 }
 
 
@@ -69,12 +82,10 @@ const Profile = () => (
                 console.log(error)
             }
 
-            const {viewer} = data;
-
-            if (loading || !viewer) {
+            if (loading) {
                 return <Loading />;
             }
-            console.log(viewer);
+            console.log(data);
 
             return <div>WIP</div>
       }}

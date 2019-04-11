@@ -11,8 +11,8 @@ import {
     STAR_REPOSITORY,
     UNSTAR_REPOSITORY,
     WATCH_REPOSITORY,
-} from '../mutations';
 
+} from '../mutations';
 const VIEWER_SUBSCRIPTIONS = {
     SUBSCRIBED: 'SUBSCRIBED',
     UNSUBSCRIBED: 'UNSUBSCRIBED',

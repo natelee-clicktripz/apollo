@@ -4,11 +4,8 @@ import RepositoryItem from '../RepositoryItem';
 
 import '../style.css';
 
-const RepositoryList = ({ repositories }) =>
-  repositories.edges.map(({ node }) => (
-    <div key={node.id} className="RepositoryItem">
-      <RepositoryItem {...node} />
-    </div>
-  ));
+const RepositoryList = ({}) =>
+
+  );
 
 export default RepositoryList;

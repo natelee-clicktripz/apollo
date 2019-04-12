@@ -4,8 +4,8 @@ import RepositoryItem from '../RepositoryItem';
 
 import '../style.css';
 
-const RepositoryList = ({}) =>
+const RepositoryList = ({}) => (
 
-  );
+);
 
 export default RepositoryList;

@@ -28,10 +28,10 @@ class Profile extends Component {
         let { location, genre } = this.state;
 
         fetch(`http://localhost:8000/api/yelpsearch/?location="${location}"&term="${genre}"`).then((res) => {
-            return res.text();
+            return res.json();
         }).then((results) => {
             this.setState({
-                restaurants: JSON.parse(results)
+                restaurants: results.errors ? JSON.parse(results).data.search.business : []
             })
         })
     }
@@ -49,7 +49,10 @@ class Profile extends Component {
                 </div>
                 {
                     Object.keys(restaurants).length ?
-                    <Restaurants restaurants={restaurants}/> :
+                    <Fragment>
+                        <Restaurants restaurants={restaurants}/>
+                        <small>Powered by Yelp</small>
+                    </Fragment> :
                     ''
                 }
             </Fragment>

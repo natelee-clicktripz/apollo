@@ -4,18 +4,20 @@ import { Link } from 'react-router-dom';
 import Loading from '../Loading';
 import ErrorMessage from '../Error';
 
-class Restaurants extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const { restaurants } = this.props;
-
-        return (
-            <div>{restaurants}</div>
-        )
-    }
+const Restaurants = (props) => {
+    const { restaurants } = props;
+    return (
+        restaurants.map((restaurant, i) => {
+            return (
+                <div key={i}>
+                    <div>{restaurant.name}</div>
+                    <div>{restaurant.url}</div>
+                    <div>{restaurant.location.address1}</div>
+                    <div>{restaurant.location.city} {restaurant.location.state} {restaurant.location.postal_code}</div>
+                </div>
+            )
+        })
+    )
 }
 
 export default Restaurants;

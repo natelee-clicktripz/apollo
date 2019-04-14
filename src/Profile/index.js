@@ -24,13 +24,13 @@ class Profile extends Component {
 
     render() {
         return (
-            <Fragment>
+            <div>
                 <label htmlFor="genre">Genre</label>
                 <input type="text" name="genre" value={this.state.genre} onChange={this.handleSearch}/>
                 <label htmlFor="location">Location</label>
                 <input type="text" name="location" value={this.state.location} onChange={this.handleSearch}/>
                 <Link to={"/search/"+this.state.location+"/"+this.state.genre}>Search</Link>
-            </Fragment>
+            </div>
         )
     }
 }

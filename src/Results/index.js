@@ -7,15 +7,26 @@ import ErrorMessage from '../Error';
 class Results extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            restaurants: []
+        }
     }
 
-    handleSearch(e) {
+    componentDidMount() {
+        const { location, genre } = this.props.match.params;
+        fetch(`http://localhost:8000/api/yelpsearch/?location="${location}"&term="${genre}"`).then((res) => {
+            return res.text();
+        }).then((results) => {
+            this.setState({
+                restaurants: JSON.parse(results)
+            })
+        })
     }
 
     render() {
-        const { location, genre } = this.props.match.params;
+        const { restaurants } = this.state;
         return (
-            <div>{location} {genre}</div>
+            <div>{restaurants}</div>
         )
     }
 }

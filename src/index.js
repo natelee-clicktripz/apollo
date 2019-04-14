@@ -6,22 +6,18 @@ import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import * as serviceWorker from './serviceWorker';
-import App from './App';
+import Profile from './Profile';
+import Results from './Results';
 
 import './style.css';
 
-const YELP_BASE_URL = 'https://api.yelp.com/v3/graphql';
+const GRAPHQL_URL = 'http://localhost:8000';
 
 const httpLink = new HttpLink({
-  uri: YELP_BASE_URL,
-  headers: {
-    authorization: `Bearer ${
-      process.env.YELP_PERSONAL_ACCESS_TOKEN
-    }`,
-    "Content-Type": "application/graphql",
-  },
+  uri: GRAPHQL_URL
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -48,9 +44,12 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
+    <Router>
+        <ApolloProvider client={client}>
+            <Route path="/" component={Profile}/>
+            <Route path="/search/:location/:genre" component={Results}/>
+        </ApolloProvider>
+    </Router>,
   document.getElementById('root'),
 );
 

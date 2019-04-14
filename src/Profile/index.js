@@ -3,18 +3,20 @@ import { Link } from 'react-router-dom';
 
 import Loading from '../Loading';
 import ErrorMessage from '../Error';
+import Restaurants from '../Restaurants';
 
 class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
             genre: 'pizza',
-            location: 'Los Angeles, CA'
+            location: 'Los Angeles, CA',
+            restaurants: [],
         };
 
     }
 
-    handleSearch = (e) => {
+    searchChange = (e) => {
         const { name, value } = e.target;
 
         this.setState({
@@ -22,15 +24,35 @@ class Profile extends Component {
         })
     }
 
+    handleSearch = (e) => {
+        let { location, genre } = this.state;
+
+        fetch(`http://localhost:8000/api/yelpsearch/?location="${location}"&term="${genre}"`).then((res) => {
+            return res.text();
+        }).then((results) => {
+            this.setState({
+                restaurants: JSON.parse(results)
+            })
+        })
+    }
+
     render() {
+        let { restaurants } = this.state;
         return (
-            <div>
-                <label htmlFor="genre">Genre</label>
-                <input type="text" name="genre" value={this.state.genre} onChange={this.handleSearch}/>
-                <label htmlFor="location">Location</label>
-                <input type="text" name="location" value={this.state.location} onChange={this.handleSearch}/>
-                <Link to={"/search/"+this.state.location+"/"+this.state.genre}>Search</Link>
-            </div>
+            <Fragment>
+                <div>
+                    <label htmlFor="genre">Genre</label>
+                    <input type="text" name="genre" value={this.state.genre} onChange={this.searchChange}/>
+                    <label htmlFor="location">Location</label>
+                    <input type="text" name="location" value={this.state.location} onChange={this.searchChange}/>
+                    <div style={{"width": 100+"px", "height": 100+"px"}} onClick={this.handleSearch}>Search</div>
+                </div>
+                {
+                    Object.keys(restaurants).length ?
+                    <Restaurants restaurants={restaurants}/> :
+                    ''
+                }
+            </Fragment>
         )
     }
 }

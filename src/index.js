@@ -10,7 +10,6 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import * as serviceWorker from './serviceWorker';
 import Profile from './Profile';
-import Results from './Results';
 
 import './style.css';
 
@@ -47,7 +46,6 @@ ReactDOM.render(
     <Router>
         <ApolloProvider client={client}>
             <Route path="/" component={Profile}/>
-            <Route path="/search/:location/:genre" component={Results}/>
         </ApolloProvider>
     </Router>,
   document.getElementById('root'),

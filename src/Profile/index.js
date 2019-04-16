@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Loading from '../Loading';
 import ErrorMessage from '../Error';
 import Restaurants from '../Restaurants';
+import Weather from '../Weather';
 
 const Wrap = styled.div`
     display: flex;
@@ -32,6 +33,7 @@ class Profile extends Component {
         this.state = {
             genre: 'pizza',
             location: 'Los Angeles, CA',
+            weather: [],
             restaurants: [],
         };
 
@@ -48,6 +50,14 @@ class Profile extends Component {
     handleSearch = (e) => {
         let { location, genre } = this.state;
 
+        fetch(`http://localhost:8000/api/weather/?location=${location}`).then((res) => {
+            return res.json();
+        }).then((results) => {
+            this.setState({
+                weather: !results.errors ? JSON.parse(results).list : []
+            })
+        })
+
         fetch(`http://localhost:8000/api/yelpsearch/?location="${location}"&term="${genre}"`).then((res) => {
             return res.json();
         }).then((results) => {
@@ -58,7 +68,7 @@ class Profile extends Component {
     }
 
     render() {
-        let { restaurants } = this.state;
+        let { restaurants, weather } = this.state;
         return (
             <Fragment>
                 <Wrap>
@@ -75,6 +85,8 @@ class Profile extends Component {
                 {
                     Object.keys(restaurants).length ?
                     <ResultsWrap>
+                        <Weather weather={weather}/>
+                        <small>Powered by OpenWeatherAPI</small>
                         <Restaurants restaurants={restaurants}/>
                         <small>Powered by Yelp</small>
                     </ResultsWrap> :

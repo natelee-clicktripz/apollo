@@ -23,8 +23,15 @@ const Label = styled.label`
 
 const ResultsWrap = styled.div`
     display: flex;
+    flex: 1 0 18%;
     align-items: center;
-    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 50px;
+`;
+
+const PowerByWrap = styled.small`
+    display: flex;
+    justify-content: center;
 `;
 
 class Profile extends Component {
@@ -48,7 +55,7 @@ class Profile extends Component {
     }
 
     handleSearch = (e) => {
-        let { location, genre } = this.state;
+        let { location} = this.state;
 
         fetch(`http://localhost:8000/api/weather/?location=${location}`).then((res) => {
             return res.json();
@@ -58,7 +65,7 @@ class Profile extends Component {
             })
         })
 
-        fetch(`http://localhost:8000/api/yelpsearch/?location="${location}"&term="${genre}"`).then((res) => {
+        fetch(`http://localhost:8000/api/yelpsearch/?location="${location}"`).then((res) => {
             return res.json();
         }).then((results) => {
             this.setState({
@@ -73,10 +80,6 @@ class Profile extends Component {
             <Fragment>
                 <Wrap>
                     <SearchItems>
-                        <Label htmlFor="genre">Genre</Label>
-                        <input type="text" name="genre" value={this.state.genre} onChange={this.searchChange}/>
-                    </SearchItems>
-                    <SearchItems>
                         <Label htmlFor="location">Location</Label>
                         <input type="text" name="location" value={this.state.location} onChange={this.searchChange}/>
                     </SearchItems>
@@ -84,12 +87,17 @@ class Profile extends Component {
                 </Wrap>
                 {
                     Object.keys(restaurants).length ?
-                    <ResultsWrap>
-                        <Weather weather={weather}/>
-                        <small>Powered by OpenWeatherAPI</small>
-                        <Restaurants restaurants={restaurants}/>
-                        <small>Powered by Yelp</small>
-                    </ResultsWrap> :
+                    <>
+                        <div>Here's the weather</div>
+                        <ResultsWrap>
+                            <Weather weather={weather}/>
+                        </ResultsWrap>
+                        <div>Some Restaurants to Try</div>
+                        <ResultsWrap>
+                            <Restaurants restaurants={restaurants}/>
+                        </ResultsWrap>
+                        <PowerByWrap>Powered by Yelp and OpenWeatherAPI</PowerByWrap>
+                    </> :
                     ''
                 }
             </Fragment>

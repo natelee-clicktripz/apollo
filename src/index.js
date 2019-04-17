@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import * as serviceWorker from './serviceWorker';
 import Profile from './Profile';
+import App from './App';
 
 import './style.css';
 
@@ -45,7 +46,7 @@ const client = new ApolloClient({
 ReactDOM.render(
     <Router>
         <ApolloProvider client={client}>
-            <Route path="/" component={Profile}/>
+            <Route path="/" component={App}/>
         </ApolloProvider>
     </Router>,
   document.getElementById('root'),

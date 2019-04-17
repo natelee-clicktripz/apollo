@@ -10,7 +10,7 @@ const Wrap = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     padding: 20px;
-    width: 50%;
+    width: 13%;
 `;
 
 const Restaurants = (props) => {

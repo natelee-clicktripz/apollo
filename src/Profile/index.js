@@ -1,30 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import InputBase from '@material-ui/core/InputBase';
 
 import Loading from '../Loading';
 import ErrorMessage from '../Error';
 import Restaurants from '../Restaurants';
 import Weather from '../Weather';
-
-const Wrap = styled.div`
-    display: flex;
-    justify-content: center;
-
-`;
-
-const SearchItems = styled.div`
-    padding: 15px;
-`;
-
-const Label = styled.label`
-    padding-right: 10px;
-`;
+import Search from '../Search';
 
 const ResultsWrap = styled.div`
     display: flex;
@@ -35,6 +17,11 @@ const ResultsWrap = styled.div`
 const PowerByWrap = styled.small`
     display: flex;
     justify-content: center;
+    margin-top: 20px;
+`;
+
+const Description = styled.div`
+    margin-top: 20px;
 `;
 
 class Profile extends Component {
@@ -76,33 +63,28 @@ class Profile extends Component {
             })
         })
     }
-
     render() {
         let { restaurants, weather } = this.state;
+        const { classes } = this.props;
         return (
             <Fragment>
-                <AppBar position="static" color="inherit">
-                    <Toolbar>
-
-                            <Label htmlFor="location">Location</Label>
-                            <InputBase value={this.state.location} onChange={this.searchChange}/>
-
-                        <Button onClick={this.handleSearch}>Search</Button>
-                    </Toolbar>
-                </AppBar>
+                <Search
+                    handleClick={this.handleSearch}
+                    handleChange={this.searchChange}
+                    newValue={this.state.location}/>
                 {
                     Object.keys(restaurants).length ?
-                    <div style={{"margin-top": 20 + 'px'}}>
-                        <div>Here's the weather</div>
+                    <div>
+                        <Description>Here's the weather</Description>
                         <ResultsWrap>
                             <Weather weather={weather}/>
                         </ResultsWrap>
 
-                        <div style={{"margin-top": 20 + 'px'}}>Some Restaurants to Try</div>
+                        <Description>Some Restaurants to Try</Description>
                         <ResultsWrap>
                             <Restaurants restaurants={restaurants}/>
                         </ResultsWrap>
-                        <PowerByWrap style={{"margin-top": 20 + 'px'}}>Powered by Yelp and OpenWeatherAPI</PowerByWrap>
+                        <PowerByWrap>Powered by Yelp and OpenWeatherAPI</PowerByWrap>
                     </div> :
                     ''
                 }

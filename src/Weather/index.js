@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 import Loading from '../Loading';
 import ErrorMessage from '../Error';
@@ -10,7 +12,8 @@ const Wrap = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     padding: 20px;
-    width: 10%;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
+    border-radius: 4px;
 `;
 
 const Item = styled.div`

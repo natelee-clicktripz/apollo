@@ -51,7 +51,7 @@ class Profile extends Component {
             return res.json();
         }).then((results) => {
             this.setState({
-                weather: !results.errors ? JSON.parse(results).list : []
+                weather: results.weather ? JSON.parse(results.weather).list : !results.errors ? JSON.parse(results).list : []
             })
         })
 
@@ -59,7 +59,7 @@ class Profile extends Component {
             return res.json();
         }).then((results) => {
             this.setState({
-                restaurants: !results.errors ? JSON.parse(results).data.search.business : []
+                restaurants: results.yelp ? JSON.parse(results.yelp).data.search.business : !results.errors ? JSON.parse(results).data.search.business : []
             })
         })
     }

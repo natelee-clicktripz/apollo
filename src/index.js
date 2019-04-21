@@ -9,7 +9,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import * as serviceWorker from './serviceWorker';
-import Profile from './Profile';
 import App from './App';
 
 import './style.css';
@@ -45,9 +44,7 @@ const client = new ApolloClient({
 
 ReactDOM.render(
     <Router>
-        <ApolloProvider client={client}>
-            <Route path="/" component={App}/>
-        </ApolloProvider>
+        <Route path="/" component={App}/>
     </Router>,
   document.getElementById('root'),
 );

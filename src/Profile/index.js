@@ -1,27 +1,38 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Loading from '../Loading';
-import ErrorMessage from '../Error';
 import Restaurants from '../Restaurants';
 import Weather from '../Weather';
 import Search from '../Search';
 
 const ResultsWrap = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
+    display: grid;
+    grid-template: 10% 35% 10% 35% 10% / repeat(auto-fill, minmax(200px, 1fr));
+    grid-gap: 20px;
+`;
+
+const WeatherDescription = styled.div`
+    grid-area: 1 / 1 / 2 / autofill
+`;
+
+const WeatherWrap = styled.div`
+    grid-area: 2 / 1 / 3 / auto-fill;
+`;
+const RestaurantDescription = styled.div`
+    grid-area: 3 / 1 / 4 / autofill
+`;
+
+const RestaurantWrap = styled.div`
+    grid-area: 4 / 1 / 5 / auto-fill;
+    justify-self: center;
+    align-self: center;
+
 `;
 
 const PowerByWrap = styled.small`
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-`;
-
-const Description = styled.div`
-    margin-top: 20px;
+    grid-area: 5 / 1 / 6 / auto-fill;
+    justify-self: center;
+    align-self: center;
 `;
 
 class Profile extends Component {
@@ -65,7 +76,6 @@ class Profile extends Component {
     }
     render() {
         let { restaurants, weather } = this.state;
-        const { classes } = this.props;
         return (
             <Fragment>
                 <Search
@@ -74,18 +84,13 @@ class Profile extends Component {
                     newValue={this.state.location}/>
                 {
                     Object.keys(restaurants).length ?
-                    <div>
-                        <Description>Here's the weather</Description>
-                        <ResultsWrap>
-                            <Weather weather={weather}/>
-                        </ResultsWrap>
-
-                        <Description>Some Restaurants to Try</Description>
-                        <ResultsWrap>
-                            <Restaurants restaurants={restaurants}/>
-                        </ResultsWrap>
+                    <ResultsWrap>
+                        <WeatherDescription>Here's the weather</WeatherDescription>
+                        <Weather weather={weather}/>
+                        <RestaurantDescription>Some Restaurants to Try</RestaurantDescription>
+                        <Restaurants restaurants={restaurants}/>
                         <PowerByWrap>Powered by Yelp and OpenWeatherAPI</PowerByWrap>
-                    </div> :
+                    </ResultsWrap> :
                     ''
                 }
             </Fragment>

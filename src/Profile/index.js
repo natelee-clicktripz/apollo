@@ -8,10 +8,10 @@ import Search from '../Search';
 const ResultsWrap = styled.div`
     display: flex;
     flex-direction: column;
+    padding: 0 15%;
 `;
 
 const PowerByWrap = styled.small`
-    justify-self: center;
     align-self: center;
     margin-top: 20px;
 `;
@@ -23,7 +23,6 @@ const NewGrid = styled.div`
 `;
 
 const Description = styled.div`
-    justify-self: flex-start;
     margin: 20px 0;
 `;
 

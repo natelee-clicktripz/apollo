@@ -30,7 +30,6 @@ class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            genre: 'pizza',
             location: 'Los Angeles, CA',
             weather: [],
             restaurants: [],
@@ -48,12 +47,25 @@ class Profile extends Component {
 
     handleSearch = (e) => {
         let { location} = this.state;
-
-        fetch(`http://localhost:8000/api/weather/?location=${location}`).then((res) => {
+        let cache = window.location.search.replace(/\?/, '');
+        let weatherURL = `http://localhost:8000/api/weather/?location=${location}`;
+        if(cache) {
+            weatherURL += `&${cache}`;
+        }
+        fetch(weatherURL).then((res) => {
             return res.json();
         }).then((results) => {
+            let weathers = results.weather ? JSON.parse(results.weather).list : !results.errors ? JSON.parse(results).list : [];
+            weathers = weathers.filter((weather) => {
+                if(/(09|12|18)\:00\:00/.test(weather.dt_txt)) {
+                    return true;
+                }
+
+                return false;
+            })
+
             this.setState({
-                weather: results.weather ? JSON.parse(results.weather).list : !results.errors ? JSON.parse(results).list : []
+                weather: weathers
             })
         })
 

@@ -51,6 +51,7 @@ const styles = theme => ({
   },
   buttonRoot: {
       borderRadius: "10px",
+      color: "white",
   }
 });
 

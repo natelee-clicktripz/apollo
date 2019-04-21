@@ -24,17 +24,16 @@ const Weather = (props) => {
             const year = dateSplit[0]
             timeSplit[0] = `${month}/${day}/${year}`;
             timeSplit = timeSplit.join(' ');
-            if(i < 10) {
-                return (
-                    <Wrap key={i}>
-                        <Item>{timeSplit}</Item>
-                        <Item>High: {temp.main.temp_max} F</Item>
-                        <Item>Low: {temp.main.temp_min} F</Item>
-                        <Item>Humidity: {temp.main.humidity}%</Item>
-                        <Item>{temp.weather[0] ? `Condition: ${temp.weather[0].description}` : ''}</Item>
-                    </Wrap>
-                )
-            }
+            return (
+                <Wrap key={i}>
+                    <Item>{timeSplit}</Item>
+                    <Item>High: {temp.main.temp_max} F</Item>
+                    <Item>Low: {temp.main.temp_min} F</Item>
+                    <Item>Humidity: {temp.main.humidity}%</Item>
+                    <Item>{temp.weather[0] ? `Condition: ${temp.weather[0].description}` : ''}</Item>
+                </Wrap>
+            )
+
 
             return '';
         })

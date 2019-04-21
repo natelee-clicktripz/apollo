@@ -6,33 +6,25 @@ import Weather from '../Weather';
 import Search from '../Search';
 
 const ResultsWrap = styled.div`
-    display: grid;
-    grid-template: 10% 35% 10% 35% 10% / repeat(auto-fill, minmax(200px, 1fr));
-    grid-gap: 20px;
-`;
-
-const WeatherDescription = styled.div`
-    grid-area: 1 / 1 / 2 / autofill
-`;
-
-const WeatherWrap = styled.div`
-    grid-area: 2 / 1 / 3 / auto-fill;
-`;
-const RestaurantDescription = styled.div`
-    grid-area: 3 / 1 / 4 / autofill
-`;
-
-const RestaurantWrap = styled.div`
-    grid-area: 4 / 1 / 5 / auto-fill;
-    justify-self: center;
-    align-self: center;
-
+    display: flex;
+    flex-direction: column;
 `;
 
 const PowerByWrap = styled.small`
-    grid-area: 5 / 1 / 6 / auto-fill;
     justify-self: center;
     align-self: center;
+    margin-top: 20px;
+`;
+
+const NewGrid = styled.div`
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) ;
+`;
+
+const Description = styled.div`
+    justify-self: flex-start;
+    margin: 20px 0;
 `;
 
 class Profile extends Component {
@@ -85,10 +77,14 @@ class Profile extends Component {
                 {
                     Object.keys(restaurants).length ?
                     <ResultsWrap>
-                        <WeatherDescription>Here's the weather</WeatherDescription>
-                        <Weather weather={weather}/>
-                        <RestaurantDescription>Some Restaurants to Try</RestaurantDescription>
-                        <Restaurants restaurants={restaurants}/>
+                        <Description>Here's the weather</Description>
+                        <NewGrid>
+                            <Weather weather={weather}/>
+                        </NewGrid>
+                        <Description>Some Restaurants to Try</Description>
+                        <NewGrid>
+                            <Restaurants restaurants={restaurants}/>
+                        </NewGrid>
                         <PowerByWrap>Powered by Yelp and OpenWeatherAPI</PowerByWrap>
                     </ResultsWrap> :
                     ''

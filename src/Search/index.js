@@ -12,6 +12,9 @@ const styles = theme => ({
   root: {
     width: '100%',
   },
+  appBarRoot: {
+      backgroundColor: '#F08700'
+  },
   title: {
     display: 'none',
     marginRight: "15px",
@@ -59,7 +62,7 @@ const Search = (props) => {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar classes={{root: classes.appBarRoot}} position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" color="inherit" noWrap>
             Location

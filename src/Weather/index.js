@@ -5,11 +5,7 @@ const Wrap = styled.div`
     padding: 20px;
     box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
     border-radius: 4px;
-`;
-
-const Item = styled.div`
-    display:flex;
-    justify-content: flex-start;
+    background-color: #BBDEF0;
 `;
 
 const Weather = (props) => {
@@ -26,11 +22,11 @@ const Weather = (props) => {
             timeSplit = timeSplit.join(' ');
             return (
                 <Wrap key={i}>
-                    <Item>{timeSplit}</Item>
-                    <Item>High: {temp.main.temp_max} F</Item>
-                    <Item>Low: {temp.main.temp_min} F</Item>
-                    <Item>Humidity: {temp.main.humidity}%</Item>
-                    <Item>{temp.weather[0] ? `Condition: ${temp.weather[0].description}` : ''}</Item>
+                    <div>{timeSplit}</div>
+                    <div>High: {temp.main.temp_max} F</div>
+                    <div>Low: {temp.main.temp_min} F</div>
+                    <div>Humidity: {temp.main.humidity}%</div>
+                    <div>{temp.weather[0] ? `Condition: ${temp.weather[0].description}` : ''}</div>
                 </Wrap>
             )
 

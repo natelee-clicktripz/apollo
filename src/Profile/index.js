@@ -19,11 +19,29 @@ const PowerByWrap = styled.small`
 const NewGrid = styled.div`
     display: grid;
     grid-gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) ;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    background-color: #EFCA08;
+    padding: 20px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: 5px 6px 3px 0px rgba(0,0,0,0.2);
 `;
 
 const Description = styled.div`
-    margin: 20px 0;
+    margin: 20px 0 0 0;
+    padding-left: 20px;
+    background-color: #F49F0A;
+    width: 100%;
+    height: 50px;
+    display: grid;
+    align-content: center;
+    justify-content: start;
+    font-weight: bold;
+    font-size: 20px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: 5px 6px 3px 0px rgba(0,0,0,0.2);
+    color: white;
 `;
 
 class Profile extends Component {

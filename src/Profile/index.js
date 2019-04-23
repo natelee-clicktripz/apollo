@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { fetchForecasts, fetchRestaurants } from '../actions';
+import { fetchForecasts, fetchRestaurants, fetchRestaurantsAndForecasts, setDoneLoading, setStartLoading } from '../actions';
 import Restaurants from '../Restaurants';
 import Weather from '../Weather';
 import Search from '../Search';
+import Loading from '../Loading';
 
 
 const ResultsWrap = styled.div`
@@ -35,7 +36,6 @@ const Description = styled.div`
     margin: 20px 0 0 0;
     padding-left: 20px;
     background-color: #F49F0A;
-    width: 100%;
     height: 50px;
     display: grid;
     align-content: center;
@@ -70,38 +70,13 @@ class Profile extends Component {
     handleSearch = (e) => {
         const { dispatch } = this.props;
         let { location } = this.state;
-        let cache = window.location.search.replace(/\?/, '');
-        let weatherURL = `http://localhost:8000/api/weather/?location=${location}`;
-        if(cache) {
-            weatherURL += `&${cache}`;
-        }
-        fetch(weatherURL).then((res) => {
-            return res.json();
-        }).then((results) => {
-            let weathers = results.weather ? JSON.parse(results.weather).list : !results.errors ? JSON.parse(results).list : [];
-            weathers = weathers.filter((weather) => {
-                if(/(09|12|18):00:00/.test(weather.dt_txt)) {
-                    return true;
-                }
 
-                return false;
-            })
-
-            this.setState({
-                weather: weathers
-            })
-        })
-
-        fetch(`http://localhost:8000/api/yelpsearch/?location="${location}"`).then((res) => {
-            return res.json();
-        }).then((results) => {
-            this.setState({
-                restaurants: results.yelp ? JSON.parse(results.yelp).data.search.business : !results.errors ? JSON.parse(results).data.search.business : []
-            })
-        })
+        dispatch(fetchRestaurantsAndForecasts(location));
     }
+
     render() {
-        let { restaurants, weather } = this.state;
+        let { isLoading, restaurants, weathers } = this.props.state.setData;
+        console.log(this.props.state.setData)
         return (
             <Fragment>
                 <Search
@@ -109,11 +84,12 @@ class Profile extends Component {
                     handleChange={this.searchChange}
                     newValue={this.state.location}/>
                 {
+                    isLoading ? <Loading/> :
                     Object.keys(restaurants).length ?
                     <ResultsWrap>
                         <Description>Here's the weather</Description>
                         <NewGrid>
-                            <Weather weather={weather}/>
+                            <Weather weather={weathers}/>
                         </NewGrid>
                         <Description>Some Restaurants to Try</Description>
                         <NewGrid>

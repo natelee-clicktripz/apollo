@@ -1,37 +1,99 @@
 export const REQUEST_FORECASTS = 'REQUEST_FORECASTS'
 export const REQUEST_RESTAURANTS = 'REQUEST_RESTAURANTS'
+export const LOADING_START = 'LOADING_START'
+export const LOADING_DONE = 'LOADING_DONE'
 
 function setForecasts(forecasts) {
   return {
     type: REQUEST_FORECASTS,
-    forecasts
+    forecasts,
+    isLoading: true
   }
 }
 
 function setRestaurants(restaurants) {
   return {
     type: REQUEST_RESTAURANTS,
-    restaurants
+    restaurants,
+    isLoading: true
   }
+}
+
+function isLoading() {
+    return {
+        type: LOADING_START,
+        isLoading: true
+    }
+}
+
+function isDoneLoading() {
+    return {
+        type: LOADING_DONE,
+        isLoading: false
+    }
+}
+
+export function setDoneLoading() {
+    return dispatch => {
+        return dispatch(isDoneLoading());
+    }
+}
+
+export function setStartLoading() {
+    return dispatch => {
+        return dispatch(isLoading());
+    }
 }
 
 export function fetchForecasts(location) {
   return dispatch => {
-     fetch(`http://localhost:8000/api/weather/?location=${location}`)
+      let cache = window.location.search.replace(/\?/, '');
+      let weatherURL = `http://localhost:8000/api/weather/?location=${location}`;
+
+      if(cache) {
+          weatherURL += `&${cache}`;
+      }
+
+     return fetch(weatherURL)
       .then(response => response.json())
       .then(json => dispatch(setForecasts(json)))
+      .then(() => {
+          dispatch(isDoneLoading());
+      })
   }
 }
 
 export function fetchRestaurants(location) {
   return dispatch => {
-     fetch(`http://localhost:8000/api/yelpsearch/?location=${location}`)
+     return fetch(`http://localhost:8000/api/yelpsearch/?location=${location}`)
       .then(response => response.json())
       .then(json => dispatch(setRestaurants(json)))
+      .then(() => {
+          dispatch(isDoneLoading());
+      })
   }
 }
 
-// export function fetchRestaurantsAndForecasts(location) {
-//     fetchRestaurants(location);
-//     fetchForecasts(location);
-// }
+export function fetchRestaurantsAndForecasts(location) {
+    return dispatch => {
+        dispatch(setStartLoading())
+      let cache = window.location.search.replace(/\?/, '');
+      let weatherURL = `http://localhost:8000/api/weather/?location=${location}`;
+
+      if(cache) {
+          weatherURL += `&${cache}`;
+      }
+
+     return fetch(weatherURL)
+      .then(response => response.json())
+      .then(json => dispatch(setForecasts(json)))
+      .then(() => {
+          return fetch(`http://localhost:8000/api/yelpsearch/?location=${location}`)
+      })
+      .then(response => response.json())
+      .then(json => dispatch(setRestaurants(json)))
+      .then(() => {
+          dispatch(setDoneLoading())
+      })
+  }
+}

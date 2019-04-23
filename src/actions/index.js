@@ -19,13 +19,6 @@ function setRestaurants(restaurants) {
   }
 }
 
-function isLoading() {
-    return {
-        type: LOADING_START,
-        isLoading: true
-    }
-}
-
 function isDoneLoading() {
     return {
         type: LOADING_DONE,
@@ -36,12 +29,6 @@ function isDoneLoading() {
 export function setDoneLoading() {
     return dispatch => {
         return dispatch(isDoneLoading());
-    }
-}
-
-export function setStartLoading() {
-    return dispatch => {
-        return dispatch(isLoading());
     }
 }
 
@@ -76,7 +63,6 @@ export function fetchRestaurants(location) {
 
 export function fetchRestaurantsAndForecasts(location) {
     return dispatch => {
-        dispatch(setStartLoading())
       let cache = window.location.search.replace(/\?/, '');
       let weatherURL = `http://localhost:8000/api/weather/?location=${location}`;
 

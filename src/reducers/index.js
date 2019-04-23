@@ -2,7 +2,6 @@ import { combineReducers } from 'redux'
 import {
     REQUEST_FORECASTS,
     REQUEST_RESTAURANTS,
-    LOADING_START,
     LOADING_DONE
 } from '../actions'
 
@@ -29,15 +28,12 @@ function setData(
       return Object.assign({}, state, {
         weathers,
       })
+
     case REQUEST_RESTAURANTS:
       return Object.assign({}, state, {
         restaurants: action.restaurants.yelp ? JSON.parse(action.restaurants.yelp).data.search.business : JSON.parse(action.restaurants).data.search.business,
       })
 
-    case LOADING_START:
-        return Object.assign({}, state, {
-            isLoading: true
-        })
     case LOADING_DONE:
         return Object.assign({}, state, {
             isLoading: false

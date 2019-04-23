@@ -76,7 +76,6 @@ class Profile extends Component {
 
     render() {
         let { isLoading, restaurants, weathers } = this.props.state.setData;
-        console.log(this.props.state.setData)
         return (
             <Fragment>
                 <Search

@@ -1,9 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
+import { fetchForecasts, fetchRestaurants } from '../actions';
 import Restaurants from '../Restaurants';
 import Weather from '../Weather';
 import Search from '../Search';
+
 
 const ResultsWrap = styled.div`
     display: flex;
@@ -64,7 +68,8 @@ class Profile extends Component {
     }
 
     handleSearch = (e) => {
-        let { location} = this.state;
+        const { dispatch } = this.props;
+        let { location } = this.state;
         let cache = window.location.search.replace(/\?/, '');
         let weatherURL = `http://localhost:8000/api/weather/?location=${location}`;
         if(cache) {
@@ -75,7 +80,7 @@ class Profile extends Component {
         }).then((results) => {
             let weathers = results.weather ? JSON.parse(results.weather).list : !results.errors ? JSON.parse(results).list : [];
             weathers = weathers.filter((weather) => {
-                if(/(09|12|18)\:00\:00/.test(weather.dt_txt)) {
+                if(/(09|12|18):00:00/.test(weather.dt_txt)) {
                     return true;
                 }
 
@@ -123,4 +128,10 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+function mapStateToProps(state, ownProps) {
+  return {
+      state
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(Profile));

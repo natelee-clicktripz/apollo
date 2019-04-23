@@ -6,10 +6,12 @@ import { ApolloLink } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Provider } from 'react-redux'
 
+import configureStore from './store'
 import * as serviceWorker from './serviceWorker';
-import App from './App';
+import Root from './Root';
 
 import './style.css';
 
@@ -42,9 +44,11 @@ const client = new ApolloClient({
   cache,
 });
 
+const store = configureStore();
+
 ReactDOM.render(
     <Router>
-        <Route path="/" component={App}/>
+        <Root store={store} />
     </Router>,
   document.getElementById('root'),
 );

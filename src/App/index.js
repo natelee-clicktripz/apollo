@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import Profile from '../Profile';
-import './style.css';
 
 const Container = styled.main`
     display: flex;

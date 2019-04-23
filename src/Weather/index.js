@@ -29,9 +29,6 @@ const Weather = (props) => {
                     <div>{temp.weather[0] ? `Condition: ${temp.weather[0].description}` : ''}</div>
                 </Wrap>
             )
-
-
-            return '';
         })
     )
 }

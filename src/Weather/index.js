@@ -9,10 +9,10 @@ const Wrap = styled.div`
 `;
 
 const Weather = (props) => {
-    const { weather } = props;
+    const { forecasts } = props;
 
     return (
-        weather.map((temp, i) => {
+        forecasts.map((temp, i) => {
             let timeSplit = temp.dt_txt.split(' ');
             let dateSplit = timeSplit[0].split('-');
             const month = dateSplit[1];

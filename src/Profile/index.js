@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { fetchForecasts, fetchRestaurants, fetchRestaurantsAndForecasts, setDoneLoading, setStartLoading } from '../actions';
+import { fetchForecasts, fetchRestaurants, fetchRestaurantsAndForecasts, setDoneLoading, setStartLoading, unsetErrorMessage, setErrorMessage } from '../actions';
 import Restaurants from '../Restaurants';
 import Weather from '../Weather';
 import Search from '../Search';
 import Loading from '../Loading';
+import ErrorMessage from '../Error';
 
 
 const ResultsWrap = styled.div`
@@ -60,7 +61,17 @@ class Profile extends Component {
     }
 
     searchChange = (e) => {
+        const { dispatch } = this.props;
         const { name, value } = e.target;
+        const { error } = this.props.state.setData;
+
+        if(value === '') {
+            dispatch(setErrorMessage('Location is needed! Please search for a location!'));
+        }
+
+        if(error && value !== '') {
+            dispatch(unsetErrorMessage());
+        }
 
         this.setState({
             [name]: value
@@ -69,13 +80,19 @@ class Profile extends Component {
 
     handleSearch = (e) => {
         const { dispatch } = this.props;
-        let { location } = this.state;
+        const { location } = this.state;
+        const { error } = this.props.state.setData;
 
-        dispatch(fetchRestaurantsAndForecasts(location));
+        if(location.trim() === '') {
+            dispatch(setErrorMessage('Cannot search with empty location!'))
+        }
+        if(!error) {
+            dispatch(fetchRestaurantsAndForecasts(location));
+        }
     }
 
     render() {
-        let { isLoading, restaurants, weathers } = this.props.state.setData;
+        let { isLoading, restaurants, weathers, msg, error, searched } = this.props.state.setData;
         return (
             <Fragment>
                 <Search
@@ -83,12 +100,12 @@ class Profile extends Component {
                     handleChange={this.searchChange}
                     newValue={this.state.location}/>
                 {
-                    isLoading ? <Loading/> :
+                    searched && (!restaurants.length || !weathers.length) ? <ErrorMessage error={'Cannot find that location! Please search again!'}/> : error ? <ErrorMessage error={msg}/> : isLoading ? <Loading/> :
                     Object.keys(restaurants).length ?
                     <ResultsWrap>
                         <Description>Here's the weather</Description>
                         <NewGrid>
-                            <Weather weather={weathers}/>
+                            <Weather forecasts={weathers}/>
                         </NewGrid>
                         <Description>Some Restaurants to Try</Description>
                         <NewGrid>

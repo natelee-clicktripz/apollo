@@ -6,6 +6,7 @@ import {
     ENABLE_ERROR,
     DISABLE_ERROR
 } from '../actions'
+import get from 'lodash/get';
 
 function setData(
     state = {
@@ -19,15 +20,26 @@ function setData(
 ) {
     switch (action.type) {
         case REQUEST_FORECASTS:
-            let weathers = action.forecasts.weather ? JSON.parse(action.forecasts.weather).errors ? [] : JSON.parse(action.forecasts.weather).list : JSON.parse(action.forecasts).list;
-
-            weathers = weathers.filter((weather) => {
-                if (/(09|12|18):00:00/.test(weather.dt_txt)) {
-                    return true;
+            let weathers;
+            if(action.forecasts.weather) {
+                if(JSON.parse(action.forecasts.weather).errors) {
+                    weathers = [];
+                } else {
+                    weathers = get(JSON.parse(action.forecasts.weather), 'list', []);
                 }
+            } else {
+                weathers = get(JSON.parse(action.forecasts), 'list', []);
+            }
 
-                return false;
-            })
+            if(weathers.length) {
+                weathers = weathers.filter((weather) => {
+                    if (/(09|12|18):00:00/.test(weather.dt_txt)) {
+                        return true;
+                    }
+
+                    return false;
+                })
+            }
 
             return Object.assign({}, state, {
                 weathers,
@@ -35,7 +47,17 @@ function setData(
             })
 
         case REQUEST_RESTAURANTS:
-            let restaurants = action.restaurants.yelp ? JSON.parse(action.restaurants.yelp).errors ? [] : JSON.parse(action.restaurants.yelp).data.search.business : JSON.parse(action.restaurants).data.search.business;
+            let restaurants;
+            if(action.restaurants.yelp) {
+                if(JSON.parse(action.restaurants.yelp).errors) {
+                    restaurants = [];
+                } else {
+                    restaurants = get(JSON.parse(action.restaurants.yelp), 'data.search.business', [])
+                }
+            } else {
+
+                restaurants = get(JSON.parse(action.restaurants), 'data.search.business', []);
+            }
 
             return Object.assign({}, state, {
                 restaurants,

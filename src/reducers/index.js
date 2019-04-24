@@ -44,6 +44,7 @@ function setData(
             return Object.assign({}, state, {
                 weathers,
                 searched: action.searched,
+                isLoading: action.isLoading
             })
 
         case REQUEST_RESTAURANTS:
@@ -62,6 +63,7 @@ function setData(
             return Object.assign({}, state, {
                 restaurants,
                 searched: action.searched,
+                isLoading: action.isLoading
             })
 
         case LOADING_DONE:

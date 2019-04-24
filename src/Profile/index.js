@@ -100,7 +100,7 @@ class Profile extends Component {
                     handleChange={this.searchChange}
                     newValue={this.state.location}/>
                 {
-                    searched && (!restaurants.length || !weathers.length) ? <ErrorMessage error={'Cannot find that location! Please search again!'}/> : error ? <ErrorMessage error={msg}/> : isLoading ? <Loading/> :
+                    error ? <ErrorMessage error={msg}/> : isLoading ? <Loading/> : searched && (!restaurants.length || !weathers.length) ? <ErrorMessage error={'Cannot find that location! Please search again!'}/> :
                     Object.keys(restaurants).length ?
                     <ResultsWrap>
                         <Description>Here's the weather</Description>

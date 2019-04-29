@@ -15,34 +15,34 @@ import Root from './Root';
 
 import './style.css';
 
-const GRAPHQL_URL = 'http://localhost:8000';
+// const GRAPHQL_URL = 'http://localhost:8000';
 
-const httpLink = new HttpLink({
-  uri: GRAPHQL_URL
-});
+// const httpLink = new HttpLink({
+//   uri: GRAPHQL_URL
+// });
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.map(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-      ),
-    );
-  }
+// const errorLink = onError(({ graphQLErrors, networkError }) => {
+//   if (graphQLErrors) {
+//     graphQLErrors.map(({ message, locations, path }) =>
+//       console.log(
+//         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+//       ),
+//     );
+//   }
 
-  if (networkError) {
-    console.log(`[Network error]: ${networkError}`);
-  }
-});
+//   if (networkError) {
+//     console.log(`[Network error]: ${networkError}`);
+//   }
+// });
 
-const link = ApolloLink.from([errorLink, httpLink]);
+// const link = ApolloLink.from([errorLink, httpLink]);
 
-const cache = new InMemoryCache();
+// const cache = new InMemoryCache();
 
-const client = new ApolloClient({
-  link,
-  cache,
-});
+// const client = new ApolloClient({
+//   link,
+//   cache,
+// });
 
 const store = configureStore();
 

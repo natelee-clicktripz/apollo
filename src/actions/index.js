@@ -68,7 +68,7 @@ export function fetchForecasts(location) {
         let cache = window.location.search.replace(/\?/, '');
         let baseURL = 'http://localhost:8000';
         if(window.location.hostname !== 'localhost') {
-            baseURL = 'http://138.68.254.146:8000';
+            baseURL = 'http://142.93.28.104:8000';
         }
         let weatherURL = `${baseURL}/api/weather/?location=${location}`;
 
@@ -89,7 +89,7 @@ export function fetchRestaurants(location) {
     return dispatch => {
         let baseURL = 'http://localhost:8000';
         if(window.location.hostname !== 'localhost') {
-            baseURL = 'http://138.68.254.146:8000';
+            baseURL = 'http://142.93.28.104:8000';
         }
         return fetch(`${baseURL}/api/yelpsearch/?location=${location}`)
             .then(response => response.json())
@@ -105,7 +105,7 @@ export function fetchRestaurantsAndForecasts(location) {
         console.log(location);
         let baseURL = 'http://localhost:8000';
         if(window.location.hostname !== 'localhost') {
-            baseURL = 'http://138.68.254.146:8000';
+            baseURL = 'http://142.93.28.104:8000';
         }
         let cache = window.location.search.replace(/\?/, '');
         let weatherURL = `${baseURL}/api/weather/?location=${location}`;
